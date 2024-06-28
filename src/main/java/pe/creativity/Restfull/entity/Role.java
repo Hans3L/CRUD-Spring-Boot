@@ -8,6 +8,8 @@ import javax.persistence.*;
 @Table(name = "security_role")
 public class Role implements GrantedAuthority {
 
+    private static final long serialVersionUID = 282327766415102255L;
+
     @GeneratedValue
     @Id
     private Long id;

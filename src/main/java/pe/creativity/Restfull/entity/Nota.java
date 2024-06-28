@@ -1,13 +1,13 @@
 package pe.creativity.Restfull.entity;
 
-import org.springframework.core.serializer.Deserializer;
-
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Table(name = "NOTA")
 @Entity
 public class Nota {
+
+    private static final long serialVersionUID= 6199738866758353965L;
+
     /*La capa de entity tambien es llamdo capa de Dominio*/
     @GeneratedValue
     @Id
