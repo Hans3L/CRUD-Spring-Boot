@@ -1,14 +1,19 @@
 package pe.creativity.Restfull.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Table(name = "security_user")
 @Entity
 public class User {
+
+    private static final long serialVersionUID = -5258915487222108493L;
 
     @GeneratedValue
     @Id
@@ -27,6 +32,14 @@ public class User {
 
     @Column(name = "last_name")
     private String lastName;
+
+    @CreationTimestamp
+    @Column(updatable = false, name = "created_at")
+    private Date createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
 
     public User() {
@@ -91,5 +104,21 @@ public class User {
 
     public void setRole(List<Role> role) {
         this.role = role;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
