@@ -1,13 +1,22 @@
 package pe.creativity.Restfull.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class LoginDto {
     /*clase para trasmitir datos de solo lectura y serializable
     que trabajara con la capa dominio o entidad
      */
 
+    @NotBlank(message = "El username no puede estar vacio")
     private String username;
+
+    @NotBlank(message = "El password no puede estar vacio")
     private String password;
+
+    @NotBlank(message = "El firstname no puede estar vacio")
     private String firstname;
+
+    @NotBlank(message = "El lastname no puede estar vacio")
     private String lastname;
 
 
