@@ -1,14 +1,12 @@
-package pe.creativity.Restfull.Security;
+package pe.creativity.Restfull.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pe.creativity.Restfull.entity.User;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +17,6 @@ import java.util.ArrayList;
 
 import static pe.creativity.Restfull.util.Constants.HEADER_STRING;
 import static pe.creativity.Restfull.util.Constants.TOKEN_PREFIX;
-import static pe.creativity.Restfull.util.Constants.SECRET_KEY;
 
 public class JwtAutheticationTokenFilter extends UsernamePasswordAuthenticationFilter {
     /*Clase para la autenticacion de usuarios*/
@@ -43,10 +40,9 @@ public class JwtAutheticationTokenFilter extends UsernamePasswordAuthenticationF
             ));
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error al leer las credenciales del usuario " + e);
         }
     }
-
 
     protected void successfulAuthentication(HttpServletResponse response,
                                             HttpServletRequest request,
@@ -59,5 +55,4 @@ public class JwtAutheticationTokenFilter extends UsernamePasswordAuthenticationF
         response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
 
     }
-
 }

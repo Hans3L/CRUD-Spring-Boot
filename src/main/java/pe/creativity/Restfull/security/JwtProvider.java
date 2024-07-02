@@ -1,17 +1,17 @@
-package pe.creativity.Restfull.Security;
+package pe.creativity.Restfull.security;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import pe.creativity.Restfull.entity.Role;
 
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Component
@@ -19,12 +19,10 @@ public class JwtProvider {
 
     private final String ROLES_KEY = "roles";
 
-    private JwtParser parser;
-
+    @Value("${security.jwt.secret-key}")
     private String secretKey;
-
+    @Value("${security.jwt.expiration-time}")
     private long validityInMilliseconds;
-
 
     public String createToken(String username, List<Role> roles) {
         //agregando usuario al payload
@@ -41,11 +39,34 @@ public class JwtProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(date)
-                .setExpiration(new Date(date.getTime()+ validityInMilliseconds))
-                .signWith(SignatureAlgorithm.HS256,secretKey)
+                .setExpiration(new Date(date.getTime() + validityInMilliseconds))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
 
     }
 
+    public long getExpirationTime() {
+        return validityInMilliseconds;
+    }
 
+    public byte[] getDecoderSecretKey() {
+        Base64.Decoder decoder = Base64.getDecoder();
+        byte[] keyBytes = decoder.decode(secretKey);
+        return keyBytes;
+    }
+
+    public String getUsernameFromJwtToken(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public boolean validateJwtToken(String authToken) {
+        try {
+            String token = authToken.replace("Bearer ", "");
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            //token no valido
+            return false;
+        }
+    }
 }
