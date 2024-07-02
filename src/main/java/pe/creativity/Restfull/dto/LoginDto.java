@@ -13,18 +13,10 @@ public class LoginDto {
     @NotBlank(message = "El password no puede estar vacio")
     private String password;
 
-    @NotBlank(message = "El firstname no puede estar vacio")
-    private String firstname;
 
-    @NotBlank(message = "El lastname no puede estar vacio")
-    private String lastname;
-
-
-    public LoginDto(String username, String password, String firsname, String lastname) {
+    public LoginDto(String username, String password) {
         this.username = username;
         this.password = password;
-        this.firstname = firsname;
-        this.lastname = lastname;
     }
 
     public String getUsername() {
@@ -43,19 +35,4 @@ public class LoginDto {
         this.password = password;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
 }
